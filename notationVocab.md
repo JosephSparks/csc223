@@ -26,6 +26,10 @@ These notations help analyze and compare the efficiency of algorithms in terms o
 Simple breakdown: Big O gives the upper-bound, lets us estimate the absolute worst-possible performance
 Big Omega gives us the lower-bound, allows us to estimate the upper-bound
 
+![](https://cdn.kastatic.org/ka-perseus-images/c02e6916d15bacae7a936381af8c6e5a0068f4fd.png)
+
+In this image example, k is some positive constant that must be allow f(x) >= Ω(x)
+
 ## 2.11 Theta Notation
 - Big Omega tells us the lower bound of the runtime of a function, and Big O tells us the upper bound.
 - Often different and we can’t guarantee runtime
@@ -47,3 +51,7 @@ Little O notation is a way to describe how fast a function grows compared to ano
 ### Little Omega Notation
 
 Little Omega notation (ω(g(n))) represents a loose lower bound that is not asymptotically tight. In simpler terms, it says that a function f(n) grows at least as fast as another function g(n) as n gets infinitely large. However, it doesn't specify exactly how much faster.
+
+### Cool resource I found
+
+![](https://i.stack.imgur.com/2BaDr.png)

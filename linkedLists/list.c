@@ -15,6 +15,21 @@ Node* make_node(int data)
     return new;
 }
 
+Node* find_in_list(Node* list, int target)
+{
+    Node* current = list;
+
+    while (current != NULL) {
+        if (current->val == target) {
+            return current; // Found the target, return the node
+        }
+        current = current->next;
+    }
+
+    return NULL; // Target not found in the list
+}
+
+
 void insert_in_front(Node** list, Node** newnode)
 {
     (*newnode)->next = *list;

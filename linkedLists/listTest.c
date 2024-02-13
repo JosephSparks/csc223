@@ -11,6 +11,24 @@ int main()
         ASSERT_EQ(n->val, 3);
         ASSERT_EQ(n->next, NULL);
     }
+
+    TEST("Can find an item in the list") {
+        // Create a linked list: 1 -> 2 -> 3 -> NULL
+        Node* n1 = make_node(1);
+        Node* n2 = make_node(2);
+        Node* n3 = make_node(3);
+        n1->next = n2;
+        n2->next = n3;
+
+        // Test finding an existing item
+        Node* result1 = find_in_list(n1, 2);
+        ASSERT_EQ(result1->val, 2);
+        ASSERT_EQ(result1->next->val, 3);
+
+        // Test finding a non-existent item
+        Node* result2 = find_in_list(n1, 5);
+        ASSERT_EQ(result2, NULL);
+    }
     
     TEST("Can create two nodes and link them together") {
         Node* n1 = make_node(3);

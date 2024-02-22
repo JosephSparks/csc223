@@ -4,87 +4,79 @@
 
 int main()
 {
-    BEGIN_TESTING("clist.h");
+    BEGIN_TESTING("list.h");
 
-    TEST("Can create a node") {
-        Node* n = make_node(3);
-        ASSERT_EQ(n->val, 3);
-        ASSERT_EQ(n->next, NULL);
-    }
-    
-    TEST("Can create two nodes and link them together") {
-        Node* n1 = make_node(3);
-        Node* n2 = make_node(2);
-        n1->next = n2;
-        ASSERT_EQ(n1->val, 3);
-        ASSERT_EQ(n1->next->val, 2);
-        ASSERT_NOT_EQ(n1->next, NULL);
-        ASSERT_EQ(n1->next->next, NULL);
-    }
- 
-    TEST("Can add a node to an empty list") {
+    TEST("Can remove node from circular linked list") {
         Node* mylist = NULL;
-        Node* n = make_node(2);
-        insert_in_front(&mylist, &n);
-        ASSERT_EQ(mylist->val, 2);
-        ASSERT_EQ(mylist->next, NULL);
-    }
+        Node* n;
 
-    TEST("Can find an item in the list") {
-        // Create a linked list: 1 -> 2 -> 3 -> NULL
-        Node* n1 = make_node(1);
-        Node* n2 = make_node(2);
-        Node* n3 = make_node(3);
-        n1->next = n2;
-        n2->next = n3;
-
-        // Test finding an existing item
-        Node* result1 = find_in_list(n1, 2);
-        // Check if the node containing the target value (2) is found
-        ASSERT_EQ(result1->val, 2);
-        // Check if the next node's value after the found node is correct (3)
-        ASSERT_EQ(result1->next->val, 3);
-
-        // Test finding a non-existent item
-        Node* result2 = find_in_list(n1, 5);
-        // Check if NULL is returned when the target value (5) is not found
-        ASSERT_EQ(result2, NULL);
-    }
-
-    TEST("Can insert a node at the end of the list") {
-        // Create a linked list: 1 -> 2 -> 3 -> NULL
-        Node* n1 = make_node(1);
-        Node* n2 = make_node(2);
-        Node* n3 = make_node(3);
-        n1->next = n2;
-        n2->next = n3;
-
-        // Create a new node and insert it at the end of the list
-        Node* new_node = make_node(4);
-        insert_at_end(&n1, &new_node);
-
-        // Traverse the list to verify the insertion
-        Node* current = n1;
-        while (current->next != NULL) {
-            current = current->next;
+        // Creating a circular linked list with even numbers from 0 to 6
+        for (int i = 0; i < 7; i += 2) {
+            n = make_node(i);
+            insert_at_end(&mylist, &n);
         }
-        
-        // Check the value of the last node
-        ASSERT_EQ(current->val, 4);
-        // Ensure the last node points to NULL
-        ASSERT_EQ(current->next, NULL);
+
+        // Connecting the last node to the first node to form a circular list
+        Node* last_node = mylist;
+        while (last_node->next != NULL) {
+            last_node = last_node->next;
+        }
+        last_node->next = mylist;
+
+        // Testing the initial state of the circular linked list
+        RETURNS_STR(print_list, "0 -> 2 -> 4 -> 6", (mylist));
+
+        // Storing the pointer to the node to be removed
+        Node* node_to_remove = mylist->next->next; // Pointing to node with value 4
+
+        // Removing the node with value 4 from the circular linked list
+        Node* removed_node = remove_from_list(&mylist, 4); 
+
+        // Asserting that the removed node is the same as the expected node
+        ASSERT_EQ(node_to_remove, removed_node);
+
+        // Testing the state of the circular linked list after removal
+        RETURNS_STR(print_list, "0 -> 2 -> 6", (mylist));
     }
 
-    TEST("Can remove a node in the list") {
-        // Create a circular linked list: 1 -> 2 -> 3 -> 4 -> 1...
-        Node* n1 = make_node(1);
-        Node* n2 = make_node(2);
-        Node* n3 = make_node(3);
-        Node* n4 = make_node(4);
-        n1->next = n2;
-        n2->next = n3;
-        n3->next = n4;
-        n4->next = n1;
+    TEST("Can insert node at specified index in circular linked list") {
+        Node* mylist = NULL;
+        Node* n;
+
+        // Creating a circular linked list with even numbers from 0 to 6
+        for (int i = 0; i < 7; i += 2) {
+            n = make_node(i);
+            insert_at_end(&mylist, &n);
+        }
+        // Connecting the last node to the first node to form a circular list
+        Node* last_node = mylist;
+        while (last_node->next != NULL) {
+            last_node = last_node->next;
+        }
+        last_node->next = mylist;
+
+        // Testing the initial state of the circular linked list
+        RETURNS_STR(print_list, "0 -> 2 -> 4 -> 6", (mylist));
+
+        // Inserting a node with value 3 at index 2
+        insert_at_index(&mylist, 3, 2);
+
+        // Testing the state of the circular linked list after insertion
+        RETURNS_STR(print_list, "0 -> 2 -> 3 -> 4 -> 6", (mylist));
+
+        // Inserting a node with value 1 at index 0
+        insert_at_index(&mylist, 1, 0);
+
+        // Testing the state of the circular linked list after insertion
+        RETURNS_STR(print_list, "1 -> 0 -> 2 -> 3 -> 4 -> 6", (mylist));
+
+        // Inserting a node with value 7 at index 6
+        insert_at_index(&mylist, 7, 6);
+
+        // Testing the state of the circular linked list after insertion
+        RETURNS_STR(print_list, "1 -> 0 -> 2 -> 3 -> 4 -> 6 -> 7", (mylist));
     }
+
+
     END_TESTING();
 }

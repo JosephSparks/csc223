@@ -6,22 +6,29 @@ def infix_to_postfix(expression):
     precedence = {'+': 1, '-': 1, '*': 2, '/': 2, '**': 3}  # Operator precedence dictionary
     stack = [] 
     postfix = ''
+    operand = '' # Introduced operand string that is updated or reset with every step of iteration
 
     # Iterate through each character in the expression
     for char in expression:
-        if char.isalnum():  # If character is alphanumeric (operand) add it to expression
-            postfix += char
+        if char.isalnum():  # If character is a digit, append to the operand
+            operand += char
         else:  # If character is an operator
+            if operand:  # If there's an operand, add it to postfix
+                postfix += operand + ' '
+                operand = ''  # Reset operand
             while stack and precedence.get(stack[-1], 0) >= precedence.get(char, 0):
                 # Pop operators from the stack with higher or equal precedence and append to postfix
-                postfix += stack.pop()
+                postfix += stack.pop() + ' '
             stack.append(char)  # Push current operator onto the stack
+
+    if operand:  # If there's a remaining operand, add it to postfix
+        postfix += operand + ' '
 
     # Pop remaining operators from the stack and append to postfix
     while stack:
-        postfix += stack.pop()
+        postfix += stack.pop() + ' '
 
-    return postfix  # Return the postfix expression
+    return postfix.strip()  # Return the postfix expression
 
 # Function to construct an expression tree from postfix expression
 def construct_expression_tree(postfix_expression):

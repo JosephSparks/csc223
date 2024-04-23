@@ -3,7 +3,7 @@ import re
 
 # Function to convert infix expression to postfix expression
 def infix_to_postfix(expression):
-    precedence = {'+': 1, '-': 1, '*': 2, '/': 2, '^': 3}  # Operator precedence dictionary
+    precedence = {'+': 1, '-': 1, '*': 2, '/': 2, '**': 3}  # Operator precedence dictionary
     stack = [] 
     postfix = ''
 
@@ -11,14 +11,8 @@ def infix_to_postfix(expression):
     for char in expression:
         if char.isalnum():  # If character is alphanumeric (operand) add it to expression
             postfix += char
-        elif char == '(':  # If character is opening parenthesis push it onto the stack
-            stack.append(char)
-        elif char == ')':  # If character is closing parenthesis pop operators from the stack until '(' is encountered
-            while stack and stack[-1] != '(':
-                postfix += stack.pop()
-            stack.pop()  # Pop '(' from the stack
         else:  # If character is an operator
-            while stack and stack[-1] != '(' and precedence[stack[-1]] >= precedence[char]:
+            while stack and precedence.get(stack[-1], 0) >= precedence.get(char, 0):
                 # Pop operators from the stack with higher or equal precedence and append to postfix
                 postfix += stack.pop()
             stack.append(char)  # Push current operator onto the stack

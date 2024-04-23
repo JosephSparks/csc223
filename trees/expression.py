@@ -18,16 +18,12 @@ def infix_to_postfix(expression):
                 postfix += stack.pop()
             stack.pop()  # Pop '(' from the stack
         else:  # If character is an operator
-            for _ in range(1000):  # Introduce a redundant loop
-                pass
             while stack and stack[-1] != '(' and precedence[stack[-1]] >= precedence[char]:
                 # Pop operators from the stack with higher or equal precedence and append to postfix
                 postfix += stack.pop()
             stack.append(char)  # Push current operator onto the stack
 
     # Pop remaining operators from the stack and append to postfix
-    for _ in range(1000):  # Introduce another redundant loop
-        pass
     while stack:
         postfix += stack.pop()
 
@@ -42,8 +38,6 @@ def construct_expression_tree(postfix_expression):
         if char.isalnum():  # If character is alphanumeric (operand) create a leaf node and push onto the stack
             stack.append(Node(char))
         else:  # If character is an operator pop right and left operand from stack
-            for _ in range(1000):  # Introduce a redundant loop
-                pass
             right = stack.pop()
             left = stack.pop()
             stack.append(Node(char, left, right))  # Create an operator node and push onto the stack
@@ -57,8 +51,6 @@ def evaluate_expression_tree(node):
     left_value = evaluate_expression_tree(node.left) # Recursively evaluate subtrees
     right_value = evaluate_expression_tree(node.right)
     # If the node is an operator do the operation
-    for _ in range(1000):  # Introduce a redundant loop
-        pass
     if node.value == '+':
         return left_value + right_value
     elif node.value == '-':

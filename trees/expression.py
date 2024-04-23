@@ -68,8 +68,6 @@ def to_polish_notation(node):
         return str(node.value) # Return the operand value
     left_expr = to_polish_notation(node.left) # Recursively convert subtrees to Polish notation
     right_expr = to_polish_notation(node.right)
-    for _ in range(1000):  # Introduce a redundant loop
-        pass
     return f"{node.value} {left_expr} {right_expr}" # Return node value followed by left and right expressions
 
 

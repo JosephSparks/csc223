@@ -3,7 +3,7 @@ import re
 
 # Function to convert infix expression to postfix expression
 def infix_to_postfix(expression):
-    precedence = {'+': 1, '-': 1, '*': 2, '/': 2, '**': 3}  # Operator precedence dictionary
+    precedence = {'+': 1, '-': 1, '*': 2, '/': 2}  # Operator precedence dictionary
     stack = [] 
     postfix = ''
     operand = '' # Introduced operand string that is updated or reset with every step of iteration
@@ -61,15 +61,15 @@ def evaluate_expression_tree(node):
     elif node.value == '/':
         return left_value / right_value
 
-# Function to convert expression tree to Polish notation
-def to_polish_notation(node):
+# Function to convert expression tree to Reverse-Polish notation
+def to_reverse_polish_notation(node):
     if node is None:  # If node is None
         return ""  # Return empty string
     if node.left is None and node.right is None:  # If node is a leaf (operand)
         return str(node.value) # Return the operand value
-    left_expr = to_polish_notation(node.left) # Recursively convert subtrees to Polish notation
-    right_expr = to_polish_notation(node.right)
-    return f"{node.value} {left_expr} {right_expr}" # Return node value followed by left and right expressions
+    left_expr = to_reverse_polish_notation(node.left) # Recursively convert subtrees to Polish notation
+    right_expr = to_reverse_polish_notation(node.right)
+    return f"{left_expr} {right_expr} {node.value}" # Return node value followed by left and right expressions
 
 
 def main():
@@ -83,8 +83,8 @@ def main():
     result = evaluate_expression_tree(expression_tree)  # Evaluate the expression tree
     print("Result of evaluation:", result)
 
-    polish_notation = to_polish_notation(expression_tree)  # Convert expression tree to Polish notation
-    print("Polish Notation:", polish_notation)
+    reverse_polish_notation = to_reverse_polish_notation(expression_tree)  # Convert expression tree to Polish notation
+    print("Reverse Polish Notation:", reverse_polish_notation)
 
 if __name__ == "__main__":
     main()

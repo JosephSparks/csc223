@@ -22,12 +22,12 @@ void sortedAppend(Node** head, int val, int weight)
 
     Node* temp = make_node(val, weight);
 
-    if ((*head)->weight < temp->weight)
+    if ((*head)->weight > temp->weight)
     {
         temp->next = *head;
         *head = temp;
     } else {
-        while (start->next != NULL && start->next->weight > temp->weight)
+        while (start->next != NULL && start->next->weight <= temp->weight)
         {
             start = start->next;
         }
